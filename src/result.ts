@@ -16,7 +16,7 @@ class UncheckedUnwrapException extends Error {
  * An UncheckedUnwrapException is thrown if a Result which contains an error is unwrapped. Please do not unwrap Results
  * unchecked!! They are Results for a reason!!
  */
-export class Result<T, E> {
+export class Result<T, E = string> {
     private readonly ok: boolean;
     private readonly value!: T;
     private readonly error!: E;
