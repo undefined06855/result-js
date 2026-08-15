@@ -16,18 +16,26 @@ class UncheckedUnwrapException extends Error {
  * An UncheckedUnwrapException is thrown if a Result which contains an error is unwrapped. Please do not unwrap Results
  * unchecked!! They are Results for a reason!!
  */
-export class Result<T, E = string> {
+export class Result<T = void, E = string> {
     private readonly ok: boolean;
     private readonly value!: T;
     private readonly error!: E;
+
+    /**
+     * Creates a successful Result with no data.
+     * @returns A successful Result with no data.
+     */
+    static ok(): Result<void, never>;
 
     /**
      * Creates a successful Result with the data provided. This can be safely unwrapped with Result#unwrap.
      * @param data The data in the Result.
      * @returns A successful Result with the data passed in.
      */
-    static ok<T>(data: T): Result<T, never> {
-        return new Result<T, never>(true, data, undefined as never);
+    static ok<T>(data: T): Result<T, never>;
+
+    static ok<T>(data?: T): Result<T, never> {
+        return new Result<T, never>(true, data as T, undefined as never);
     }
 
     /**
