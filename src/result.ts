@@ -148,7 +148,7 @@ export class Result<T = void, E = string> {
      * @param fallback The fallback callback (hey, that rhymes!), if the Result contains an error.
      * @returns The value contained in the Result, or the fallback.
      */
-    unwrapOrElse(fallback: (error?: E) => T): T {
+    unwrapOrElse(fallback: (error: E) => T): T {
         if (this.isErr()) {
             return fallback(this.error);
         } else {
