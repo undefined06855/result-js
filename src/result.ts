@@ -169,4 +169,15 @@ export class Result<T = void, E = string> {
             return errCallback(this.error);
         }
     }
+
+    /**
+     * Converts a Result<Result<T, E>, E> to a Result<T, E>, useful if you have nested results for whatever reason.
+     */
+    flatten<T, E>(this: Result<Result<T, E>, E>): Result<T, E> {
+        if (this.isOk()) {
+            return this.unwrap();
+        } else {
+            return this as Result<never, E>;
+        }
+    }
 };
