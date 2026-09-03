@@ -207,4 +207,28 @@ export class Result<T = void, E = string> {
             return this as unknown as Result<never, E>;
         }
     }
+
+    /**
+     * Logs the value that this contains, if any, and does nothing. Can be chained with other functions.
+     * @returns The same Result, to be chained.
+     */
+    log(): Result<T, E> {
+        if (this.isOk()) {
+            console.info(this.unwrap());
+        }
+
+        return this;
+    }
+
+    /**
+     * Logs the error that this contains, if any, and does nothing. Can be chained with other functions.
+     * @returns The same Result, to be chained.
+     */
+    logErr(): Result<T, E> {
+        if (this.isErr()) {
+            console.error(this.unwrapErr());
+        }
+
+        return this;
+    }
 };
