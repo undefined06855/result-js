@@ -187,8 +187,12 @@ export class Result<T = void, E = string> {
      * throw an UncheckedUnwrapException!
      * @returns A Result where E is set to never.
      */
-    forceOk() {
-        return Result.ok(this.unwrap());
+    forceOk(): Result<T, never> {
+        if (this.isErr()) {
+            throw new UncheckedUnwrapException(`Called forceOk on an Err Result: ${this.error}!`);
+        } else {
+            return this as unknown as Result<T, never>;
+        }
     }
 
     /**
@@ -196,7 +200,11 @@ export class Result<T = void, E = string> {
      * may throw an UncheckedUnwrapException!
      * @returns A Result where T is set to never.
      */
-    forceErr() {
-        return Result.err(this.unwrapErr());
+    forceErr(): Result<never, E> {
+        if (this.isOk()) {
+            throw new UncheckedUnwrapException(`Called forceErr on an Ok Result: ${this.value}!`);
+        } else {
+            return this as unknown as Result<never, E>;
+        }
     }
 };
