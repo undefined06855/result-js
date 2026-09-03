@@ -209,7 +209,8 @@ export class Result<T = void, E = string> {
     }
 
     /**
-     * Logs the value that this contains, if any, and does nothing. Can be chained with other functions.
+     * Logs the value that this contains, if any, and does nothing. Can be chained with other functions. Calls
+     * Result#inspect with console.info.
      * @returns The same Result, to be chained.
      */
     log(): Result<T, E> {
@@ -217,7 +218,8 @@ export class Result<T = void, E = string> {
     }
 
     /**
-     * Logs the error that this contains, if any, and does nothing. Can be chained with other functions.
+     * Logs the error that this contains, if any, and does nothing. Can be chained with other functions. Calls
+     * Result#inspectErr with console.error.
      * @returns The same Result, to be chained.
      */
     logErr(): Result<T, E> {
