@@ -172,6 +172,7 @@ export class Result<T = void, E = string> {
 
     /**
      * Converts a Result<Result<T, E>, E> to a Result<T, E>, useful if you have nested results for whatever reason.
+     * @returns An unnested Result.
      */
     flatten<T, E>(this: Result<Result<T, E>, E>): Result<T, E> {
         if (this.isOk()) {
@@ -179,5 +180,23 @@ export class Result<T = void, E = string> {
         } else {
             return this as Result<never, E>;
         }
+    }
+
+    /**
+     * Converts a Result<T, E> to a Result<T, never>. The equivalent of running Result.ok(result.unwrap()), so this may
+     * throw an UncheckedUnwrapException!
+     * @returns A Result where E is set to never.
+     */
+    forceOk() {
+        return Result.ok(this.unwrap());
+    }
+
+    /**
+     * Converts a Result<T, E> to a Result<never, E>. The equivalent of running Result.err(result.unwrapErr()), so this
+     * may throw an UncheckedUnwrapException!
+     * @returns A Result where T is set to never.
+     */
+    forceErr() {
+        return Result.err(this.unwrapErr());
     }
 };
