@@ -213,11 +213,7 @@ export class Result<T = void, E = string> {
      * @returns The same Result, to be chained.
      */
     log(): Result<T, E> {
-        if (this.isOk()) {
-            console.info(this.unwrap());
-        }
-
-        return this;
+        return this.inspect(value => console.info(value));
     }
 
     /**
@@ -225,8 +221,28 @@ export class Result<T = void, E = string> {
      * @returns The same Result, to be chained.
      */
     logErr(): Result<T, E> {
+        return this.inspectErr(err => console.error(err));
+    }
+
+    /**
+     * Runs a callback on the value in the Result, if it has one. Can be chained with other functions.
+     * @returns The same Result, to be chained.
+     */
+    inspect(callback: (value: T) => void): Result<T, E> {
+        if (this.isOk()) {
+            callback(this.unwrap());
+        }
+
+        return this;
+    }
+
+    /**
+     * Runs a callback on the error in the Result, if it has one. Can be chained with other functions.
+     * @returns The same Result, to be chained.
+     */
+    inspectErr(callback: (error: E) => void): Result<T, E> {
         if (this.isErr()) {
-            console.error(this.unwrapErr());
+            callback(this.unwrapErr());
         }
 
         return this;
