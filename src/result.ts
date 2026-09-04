@@ -18,8 +18,8 @@ class UncheckedUnwrapException extends Error {
  */
 export class Result<T = void, E = string> {
     private readonly ok: boolean;
-    private readonly value!: T;
-    private readonly error!: E;
+    private readonly value: T;
+    private readonly error: E;
 
     /**
      * Creates a successful Result with no data.
