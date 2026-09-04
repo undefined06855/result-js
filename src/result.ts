@@ -93,13 +93,17 @@ export class Result<T = void, E = string> {
      * Checks whether the Result is successful or not.
      * @returns Whether the Result is okay, and can be unwrapped with Result#unwrap.
      */
-    isOk(): boolean { return this.ok; }
+    isOk(): boolean {
+        return this.ok;
+    }
 
     /**
      * Checks whether the Result is unsuccessful or not.
      * @returns Whether the Result contains an error, and can be unwrapped with Result#unwrapErr.
      */
-    isErr(): boolean { return !this.ok; }
+    isErr(): boolean {
+        return !this.ok;
+    }
 
     /**
      * Unwraps and returns the value inside the Result, if it was successful. Do not call if Result#isErr returns true,
@@ -157,6 +161,23 @@ export class Result<T = void, E = string> {
     }
 
     /**
+     * Converts a Result<T, E> to a T?, depending on if this contains a value or not. Equivalent of Rust's Result::ok.
+     * @returns The value this Result contains, or undefined if it doesn't.
+     */
+    toOk(): T | undefined {
+        return this.value;
+    }
+
+    /**
+     * Converts a Result<T, E> to an E?, depending on if this contains an error or not. Equivalent of Rust's
+     * Result::err.
+     * @returns The error this Result contains, or undefined if it doesn't.
+     */
+    toErr(): E | undefined {
+        return this.error;
+    }
+
+    /**
      * Calls either okCallback or errCallback with the value or error if the Result contains a value or error,
      * respectively.
      * @param okCallback The callback that gets called with the value inside the Result, if the Result is successful.
@@ -179,6 +200,30 @@ export class Result<T = void, E = string> {
             return this.value;
         } else {
             return this as Result<never, E>;
+        }
+    }
+
+    /**
+     * Performs a boolean and between two Results. See https://doc.rust-lang.org/std/result/enum.Result.html#method.and
+     * @returns This Result if this result is Err, else the other Result.
+     */
+    and<U, F>(other: Result<U, F>): Result<T, E> | Result<U, F> {
+        if (this.isErr()) {
+            return this;
+        } else {
+            return other;
+        }
+    }
+
+    /**
+     * Performs a boolean or between two Results. See https://doc.rust-lang.org/std/result/enum.Result.html#method.or
+     * @returns This Result if this result is Ok, else the other Result.
+     */
+    or<U, F>(other: Result<U, F>): Result<T, E> | Result<U, F> {
+        if (this.isOk()) {
+            return this;
+        } else {
+            return other;
         }
     }
 
@@ -248,5 +293,13 @@ export class Result<T = void, E = string> {
         }
 
         return this;
+    }
+
+    /**
+     * Merges the value and error of the Result, regardless of their types.
+     * @returns Either the value or the error in the Result.
+     */
+    merge(): T | E {
+        return this.isOk() ? this.value : this.error;
     }
 };
