@@ -109,7 +109,7 @@ export class Result<T = void, E = string> {
      */
     unwrap(): T {
         if (this.isErr()) {
-            throw new UncheckedUnwrapException(`Called unwrap on an Err Result: ${String(this.error)}!`);
+            throw new UncheckedUnwrapException(`Called unwrap on an Err Result: ${this.error}!`);
         } else {
             return this.value;
         }
