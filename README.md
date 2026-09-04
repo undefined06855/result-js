@@ -6,7 +6,7 @@ typing, and support for creating Results from potentially null values and Promis
 See [example.ts](./example.ts) for examples on how to use the library.
 
 ## Functions
-View the JSDoc comments inside result.ts for usage and implementation details.
+View the JSDoc comments inside [result.ts](./src/result.ts) for usage and implementation details.
 
 - Static functions:
     - `Result#ok`
@@ -34,5 +34,11 @@ View the JSDoc comments inside result.ts for usage and implementation details.
     - `Result#log`
     - `Result#logErr`
     - `Result#merge`
+
+## Contributing
+If you really want to, all I suggest is to keep the current code style, 120 column hard limit, and absolutely no AI
+generated contributions.
+
+---
 
 This project was created using `bun init` in bun v1.3.14. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
