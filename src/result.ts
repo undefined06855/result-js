@@ -176,7 +176,7 @@ export class Result<T = void, E = string> {
      */
     flatten<T, E>(this: Result<Result<T, E>, E>): Result<T, E> {
         if (this.isOk()) {
-            return this.unwrap();
+            return this.value;
         } else {
             return this as Result<never, E>;
         }
@@ -219,7 +219,7 @@ export class Result<T = void, E = string> {
 
     /**
      * Logs the error that this contains, if any, and does nothing. Can be chained with other functions. Calls
-     * Result#inspectErr with console.error.
+     * Result#inspectErr with console.error
      * @returns The same Result, to be chained.
      */
     logErr(): Result<T, E> {
@@ -232,7 +232,7 @@ export class Result<T = void, E = string> {
      */
     inspect(callback: (value: T) => void): Result<T, E> {
         if (this.isOk()) {
-            callback(this.unwrap());
+            callback(this.value);
         }
 
         return this;
@@ -244,7 +244,7 @@ export class Result<T = void, E = string> {
      */
     inspectErr(callback: (error: E) => void): Result<T, E> {
         if (this.isErr()) {
-            callback(this.unwrapErr());
+            callback(this.error);
         }
 
         return this;
