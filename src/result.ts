@@ -161,6 +161,35 @@ export class Result<T = void, E = string> {
     }
 
     /**
+     * Calls a callback function on a value in this Result, if it has one, changing a Result<T, E> into a Result<U, E>.
+     * Does nothing if the Result contains an error. Can be used to chain Results by having the callback immediately
+     * return another Result, and then calling Result#flatten.
+     * @param callback The callback function called on the value of this Result, if it has one.
+     * @returns The value of this Result mapped to the return value of the callback.
+     */
+    map<U>(callback: (value: T) => U): Result<U, E> {
+        if (this.isOk()) {
+            return Result.ok(callback(this.value));
+        } else {
+            return this.forceErr();
+        }
+    }
+
+    /**
+     * Calls a callback function on an error in this Result, if it has one, changing a Result<T, E> into a Result<T, U>.
+     * Does nothing if the Result contains a value.
+     * @param callback The callback function called on the error of this Result, if it has one.
+     * @returns The error mapped to the return value of the callback.
+     */
+    mapErr<U>(callback: (error: E) => U): Result<T, U> {
+        if (this.isErr()) {
+            return Result.err(callback(this.error));
+        } else {
+            return this.forceOk();
+        }
+    }
+
+    /**
      * Converts a Result<T, E> to a T?, depending on if this contains a value or not. Equivalent of Rust's Result::ok.
      * @returns The value this Result contains, or undefined if it doesn't.
      */

@@ -20,6 +20,8 @@ View the JSDoc comments inside [result.ts](./src/result.ts) for usage and implem
     - `Result#unwrapErr`
     - `Result#unwrapOr`
     - `Result#unwrapOrElse`
+    - `Result#map`
+    - `Result#mapErr`
     - `Result#toOk`
     - `Result#toErr`
     - `Result#match`
