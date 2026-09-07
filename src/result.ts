@@ -69,7 +69,7 @@ export class Result<T = void, E = string> {
      * @param error An error value which is passed as the error if the maybeNull parameter was null or undefined.
      * @returns A successful or unsuccessful Result depending on the maybeNull parameter.
      */
-    static fromNull<T, E>(maybeNull: T | null | undefined, error: E) {
+    static fromNull<T, E>(maybeNull: T | null | undefined, error: E): Result<T, E> {
         // null or undefined, in this case
         if (maybeNull == null) {
             return Result.err(error);
